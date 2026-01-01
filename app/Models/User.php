@@ -6,7 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Notifications\Notification;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -60,6 +59,15 @@ use  HasApiTokens, HasFactory, Notifiable;
 
      public function details() {
         return $this->hasOne(UserDetails::class);
+    }
+    public function isProfileCompleted()
+    {
+        return $this->details &&
+               $this->details->CNI &&
+               $this->details->tel &&
+               $this->details->permi_licence &&
+               $this->details->genre &&
+               $this->details->date_naissance;
     }
     public function paiments()
     {

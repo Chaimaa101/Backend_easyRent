@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class isAdmin
+class ProfileCompleted
 {
     /**
      * Handle an incoming request.
@@ -15,12 +15,10 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-       
-        if($request->user() && $request->user()->role == 'admin'){
+        if (!$request->user()->isProfileCompleted()) {
+        return response()->json(['error'=> 'Complétez votre profil pour louer une voiture'],403);
+    }
 
-            return $next($request);
-        }
-         
-        return response()->json(['error' => 'Accès refusé. Seuls les administrateurs peuvent accéder à cette page.'], 403);
+    return $next($request);
     }
 }
